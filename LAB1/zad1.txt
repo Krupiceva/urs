@@ -1,0 +1,89 @@
+;PALASM Design Description
+;---------------------------------- Declaration Segment ------------
+TITLE zadatak1
+PATTERN 
+REVISION 1.0
+AUTHOR Dora
+COMPANY FER
+DATE 03/31/16
+CHIP zad1 PALCE16V8
+;---------------------------------- PIN Declarations ---------------
+PIN  2,3,4          U[2..0]                           COMBINATORIAL ; INPUT 
+PIN  17,16,14..12,18,19,15 S[7..0] 					  COMBINATORIAL ; OUTPUT
+PIN  20			VCC													;
+PIN  10			GND													;
+STRING NULA 'S[7] S[6] S[5] S[4] S[3] S[2] /S[1] /S[0]'
+STRING JEDAN '/S[7] S[6] S[5] /S[4] /S[3] /S[2] /S[1] /S[0]'
+STRING DVA ' S[7] S[6] /S[5] S[4] S[3] /S[2] S[1] /S[0]'
+STRING TRI ' S[7] S[6] S[5] S[4] /S[3] /S[2] S[1] /S[0]'
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+CASE (U[2..0])
+	BEGIN
+
+		#b000:  BEGIN
+					S[7..0] = #b11111100
+				END
+
+		#b001:	BEGIN
+					S[7..0] = #b01100000
+				END
+
+		#b010:	BEGIN
+					S[7..0] = #b01100000
+				END
+
+		#b011:	BEGIN
+					S[7..0] = #b11011010
+				END
+
+		#b100:	BEGIN
+					S[7..0] = #b01100000
+				END
+
+		#b101:	BEGIN
+					S[7..0] = #b11011010
+				END
+
+		#b110:	BEGIN
+					S[7..0] = #b11011010
+				END
+
+		#b111:	BEGIN
+					S[7..0] = #b11110011
+				END
+
+	END
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+	TRACE_ON U[2..0] S[7..0]
+
+	SETF /U[2] /U[1] /U[0]
+	CHECK NULA
+
+	SETF /U[2] /U[1] U[0]
+	CHECK JEDAN
+
+	SETF /U[2] U[1] /U[0]
+	CHECK JEDAN
+
+	SETF /U[2] U[1] U[0]
+	CHECK DVA
+
+	SETF U[2] /U[1] /U[0]
+	CHECK JEDAN
+
+	SETF U[2] /U[1] U[0]
+	CHECK DVA
+
+	SETF U[2] U[1] /U[0]
+	CHECK DVA
+
+	SETF U[2] U[1] U[0]
+	CHECK TRI
+
+	TRACE_OFF
+
+;-------------------------------------------------------------------

@@ -1,0 +1,114 @@
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE zadatak2
+PATTERN 
+REVISION 1.0
+AUTHOR Dora
+COMPANY FER
+DATE 03/31/16
+CHIP zad2 PALCE16V8
+
+;---------------------------------- PIN Declarations ---------------
+PIN  1          CLK                                   COMBINATORIAL ; INPUT 
+PIN  2          SMJER                                 COMBINATORIAL ; INPUT 
+PIN  11         /OE                                   COMBINATORIAL ; INPUT 
+PIN  20         VCC                                                 ; 
+PIN  10         GND                                                 ; 
+PIN  17,16,19,18,15 S[4..0]                           REGISTERED    ; OUTPUT
+PIN  14         SC                                    COMBINATORIAL ; INPUT
+PIN  13         SD                                    COMBINATORIAL ; INPUT
+PIN  12         SE                                    COMBINATORIAL ; INPUT
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+
+SC = GND
+SD = GND
+SE = GND
+
+CASE (S[4..1])
+	BEGIN
+
+		#b0000:		BEGIN
+						IF (/SMJER) THEN
+							BEGIN
+								S[4..0] = #b10000
+							END
+						ELSE
+							BEGIN
+								S[4..0] = #b00011
+							END
+					END
+
+		#b1000:		BEGIN
+						IF (/SMJER) THEN
+							BEGIN
+								S[4..0] = #b01000
+							END
+						ELSE
+							BEGIN
+								S[4..0] = #b00011
+							END
+					END
+
+		#b0100:		BEGIN
+						IF (/SMJER) THEN
+							BEGIN
+								S[4..0] = #b00100
+							END
+						ELSE
+							BEGIN
+								S[4..0] = #b10001
+							END
+					END
+
+		#b0010:		BEGIN
+						IF (/SMJER) THEN
+							BEGIN
+								S[4..0] = #b00010
+							END
+						ELSE
+							BEGIN
+								S[4..0] = #b01001
+							END
+					END
+
+		#b0001:		BEGIN
+						IF (/SMJER) THEN
+							BEGIN
+								S[4..0] = #b10000
+							END
+						ELSE
+							BEGIN
+								S[4..0] = #b00101
+							END
+					END
+
+		OTHERWISE:	BEGIN
+								S[4..0] = #b00000
+					END
+	END
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+TRACE_ON CLK S[4..0] SMJER
+SETF /SMJER
+SETF CLK
+SETF /CLK
+FOR I:= 1 TO 15 DO
+BEGIN
+SETF CLK
+SETF /CLK
+END
+
+SETF SMJER
+SETF CLK
+SETF /CLK
+FOR i:= 1 TO 15 DO
+BEGIN
+SETF CLK
+SETF /CLK
+END
+
+TRACE_OFF
+;-------------------------------------------------------------------
