@@ -1,4 +1,13 @@
-CHIP ALU PAL22V10
+;PALASM Design Description
+
+;---------------------------------- Declaration Segment ------------
+TITLE ALU_0_4_8_18
+PATTERN 
+REVISION 1.0
+AUTHOR Dora
+COMPANY FER
+DATE 04/07/16
+CHIP ALU PALCE22V10
 ;---------------------------------- PIN Declarations ---------------
 PIN 2..4 X_IN[2..0] COMBINATORIAL ; INPUT 
 PIN 6..7 S[1..0] COMBINATORIAL ; INPUT 
@@ -20,16 +29,20 @@ FIN=FIN_IN
 CASE (S[1..0])
 	BEGIN
 		#B00: BEGIN
+				;A=X
 				A[2..0]=X[2..0]
 				FOUT=FOUT
 			  END
 		#B01: BEGIN
+				;A=A OR X
 				A[2..0]=A[2..0]+X[2..0]
 			  END
 		#B10: BEGIN
+				;A=A NXOR X
 				A[2..0]=/(A[2..0]:+:X[2..0])
 			  END
 		#B11: BEGIN
+				;A=A+X+FIN
 				POM1 := A[0]*X[0]*/FIN + A[0]*FIN + X[0]*FIN
 				A[0] := /A[0]*/X[0]*FIN + /A[0]*X[0]*/FIN + A[0]*/X[0]*/FIN + A[0]*X[0]*FIN
 
@@ -44,3 +57,37 @@ CASE (S[1..0])
 SIMULATION
 
 TRACE_ON CLK X_IN[2..0] S[1..0] X[2..0] A[2..0] FOUT
+
+;postavi 100 provjera prosljedjivanja
+SETF /CLK 
+SETF X_IN[2] /X_IN[1] /X_IN[0] FIN_IN 
+SETF CLK 
+CHECK X[2] /X[1] /X[0] FIN 
+
+;provjera a=x
+SETF /CLK 
+SETF /S[1] /S[0]
+SETF CLK 
+CHECK A[2] /A[1] /A[0] 
+
+;provjera a=a or x
+SETF /CLK 
+SETF /S[1] S[0]
+SETF CLK 
+CHECK A[2] /A[1] /A[0] 
+
+;provjera a=a nxor x
+SETF /CLK 
+SETF S[1] /S[0]
+SETF CLK 
+CHECK A[2] A[1] A[0] 
+
+;provjera a=a+x+fin 111 + 100 + 1
+SETF /CLK 
+SETF X_IN[2] /X_IN[1] /X_IN[0] FIN_IN 
+SETF S[1] S[0]
+SETF CLK 
+CHECK A[2] /A[1] /A[0] 
+
+TRACE_OFF
+;-------------------------------------------------------------------
