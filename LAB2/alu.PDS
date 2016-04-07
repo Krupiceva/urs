@@ -1,0 +1,46 @@
+CHIP ALU PAL22V10
+;---------------------------------- PIN Declarations ---------------
+PIN 2..4 X_IN[2..0] COMBINATORIAL ; INPUT 
+PIN 6..7 S[1..0] COMBINATORIAL ; INPUT 
+PIN 5 FIN_IN COMBINATORIAL ; INPUT 
+PIN 1 CLK COMBINATORIAL ; 
+PIN 12 GND ; 
+PIN 24 VCC ; 
+PIN 14..16 X[2..0] REGISTERED ; OUTPUT
+PIN 17..19 A[2..0] REGISTERED ; OUTPUT
+PIN 20 FIN REGISTERED ; OUTPUT
+PIN 21 FOUT REGISTERED ; OUTPUT
+PIN 22 POM1 REGISTERED ; 
+PIN 23 POM2 REGISTERED ;
+;----------------------------------- Boolean Equation Segment ------
+EQUATIONS
+X[2..0]=X_IN[2..0]
+FIN=FIN_IN
+
+CASE (S[1..0])
+	BEGIN
+		#B00: BEGIN
+				A[2..0]=X[2..0]
+				FOUT=FOUT
+			  END
+		#B01: BEGIN
+				A[2..0]=A[2..0]+X[2..0]
+			  END
+		#B10: BEGIN
+				A[2..0]=/(A[2..0]:+:X[2..0])
+			  END
+		#B11: BEGIN
+				POM1 := A[0]*X[0]*/FIN + A[0]*FIN + X[0]*FIN
+				A[0] := /A[0]*/X[0]*FIN + /A[0]*X[0]*/FIN + A[0]*/X[0]*/FIN + A[0]*X[0]*FIN
+
+				POM2 := /POM1*A[1]*X[1] + /POM1*/A[1]*X[1] + POM1*A[1]*/X[1] + POM1*A[1]*X[1]
+				A[1] := /POM1*/A[1]*X[1] + POM1*A[1] + POM1*X[1]
+
+				FOUT := /POM2*A[2]*X[2] + POM2*X[2] + POM2*A[2]
+				A[2] := /POM2*/A[2]*/X[2] + /POM2*A[2]*/X[2] + POM2*/A[2]*/X[2] + POM2*A[2]*X[2]
+			  END
+	END
+;----------------------------------- Simulation Segment ------------
+SIMULATION
+
+TRACE_ON CLK X_IN[2..0] S[1..0] X[2..0] A[2..0] FOUT
