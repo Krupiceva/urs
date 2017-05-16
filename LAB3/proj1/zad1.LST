@@ -1,0 +1,88 @@
+A51 MACRO ASSEMBLER  ZAD1                                                                 05/16/2017 08:25:28 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.5.0
+OBJECT MODULE PLACED IN zad1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE zad1.a51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+----                   1                             CSEG AT 00h                     
+
+0000 900000            2                             mov DPTR, #0000h                        ;RAM pocinje na toj adresi
+
+0003 7864              3                             mov R0, #064h                           ;incijalizacija brojaca R0=
+                             100
+
+                       4                             
+
+0005 74AA              5     loop:           mov A, #0AAh                                    ;stavi AA u acc
+
+0007 F0                6                             movx @DPTR, A                           ;upisi A u ono sta je na ad
+                             r DPTR tj upisi u vanjski RAM AA
+
+0008 E0                7                             movx A, @DPTR                           ;upisi u A ono sta je na ad
+                             r DPTR tj citaj vanjski RAM
+
+0009 B4AA0D            8                             cjne A, #0AAh, false                    ;ako nije AA skoci na false
+
+000C A3                9                             inc DPTR                                                ;povecaj da
+                             ta pointer
+
+000D D8F6             10                             djnz R0, loop                                   ;smanjuj brojac dok
+                              nije 0 i vrti petlju loop
+
+                      11                             
+
+000F 74F5             12                             mov A, #0F5h                                    ;stavi 0x00F5 u acc
+                             , s F5 dobimo A na prikazniku
+
+                      13                             
+
+0011 908000           14     display:        mov DPTR, #8000h                        ;lijevi pokaznik je na toj adresi
+
+0014 F0               15                             movx @DPTR, A                           ;stavi na adresu 0x8000 acc
+                             , tj na lijevi pokaznik A ili 0
+
+0015 A3               16                             inc DPTR                                                ;povecaj da
+                             ta pointer jer je na 0x8001 desni pokaznik
+
+0016 F0               17                             movx @DPTR, A                           ;stavi na adresu 0x8001 acc
+                             , tj na lijevi pokaznik A ili 0
+
+0017 8004             18                             jmp toend                                       
+
+                      19                                             
+
+0019 7477             20     false:          mov A, #077h                                    ;stavi 0x0077 u acc, s 77 d
+                             obimo 0 na prikazniku
+
+001B 80F4             21                             jmp display                                             ;skoci na p
+                             rikazivanje
+
+                      22                             
+
+001D 80FE             23     toend:  jmp toend                                               ;inf loop
+
+                      24     
+
+                      25                             END
+
+A51 MACRO ASSEMBLER  ZAD1                                                                 05/16/2017 08:25:28 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DISPLAY. . . . . .  C ADDR   0011H   A   
+FALSE. . . . . . .  C ADDR   0019H   A   
+LOOP . . . . . . .  C ADDR   0005H   A   
+TOEND. . . . . . .  C ADDR   001DH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
