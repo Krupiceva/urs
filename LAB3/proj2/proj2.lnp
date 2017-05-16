@@ -1,0 +1,4 @@
+"glavni.obj" 
+TO "proj2" 
+CODE( 0X0000-0XFFFE )
+XDATA( 0X0000-0X7FFE )
