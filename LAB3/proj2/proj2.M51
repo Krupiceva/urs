@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        05/16/2017  09:55:09  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/16/2017  10:48:56  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -30,8 +30,8 @@ LINK MAP OF MODULE:  proj2 (GLAVNI)
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
             DATA    0008H     0014H     UNIT         _DATA_GROUP_
                     001CH     0004H                  *** GAP ***
-            BIT     0020H.0   0001H.1   UNIT         _BIT_GROUP_
-                    0021H.1   0000H.7                *** GAP ***
+            BIT     0020H.0   0001H.2   UNIT         _BIT_GROUP_
+                    0021H.2   0000H.6                *** GAP ***
             IDATA   0022H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
@@ -39,10 +39,10 @@ LINK MAP OF MODULE:  proj2 (GLAVNI)
                     0003H     07FDH                  *** GAP ***
             CODE    0800H     035CH     UNIT         ?PR?PRINTF?PRINTF
             CODE    0B5CH     008EH     UNIT         ?C?LIB_CODE
-            CODE    0BEAH     0027H     UNIT         ?PR?PUTCHAR?PUTCHAR
-            CODE    0C11H     001EH     UNIT         ?CO?GLAVNI
-            CODE    0C2FH     0019H     UNIT         ?PR?MAIN?GLAVNI
-            CODE    0C48H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0BEAH     0053H     UNIT         ?CO?GLAVNI
+            CODE    0C3DH     004CH     UNIT         ?PR?MAIN?GLAVNI
+            CODE    0C89H     0027H     UNIT         ?PR?PUTCHAR?PUTCHAR
+            CODE    0CB0H     000CH     UNIT         ?C_C51STARTUP
 
 
 
@@ -55,14 +55,14 @@ SEGMENT                           BIT_GROUP          DATA_GROUP
 ?C_C51STARTUP                  -----    -----      -----    -----
   +--> ?PR?MAIN?GLAVNI
 
-?PR?MAIN?GLAVNI                -----    -----      -----    -----
+?PR?MAIN?GLAVNI                0020H.0  0000H.1    -----    -----
   +--> ?CO?GLAVNI
   +--> ?PR?PRINTF?PRINTF
 
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/16/2017  09:55:09  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/16/2017  10:48:56  PAGE 2
 
 
-?PR?PRINTF?PRINTF              0020H.0  0001H.1    0008H    0014H
+?PR?PRINTF?PRINTF              0020H.1  0001H.1    0008H    0014H
   +--> ?PR?PUTCHAR?PUTCHAR
 
 
@@ -74,21 +74,41 @@ SYMBOL TABLE OF MODULE:  proj2 (GLAVNI)
 
   -------         MODULE        GLAVNI
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:0C2FH         PUBLIC        main
+  C:0C3DH         PUBLIC        main
   D:0098H         PUBLIC        SCON
   D:0089H         PUBLIC        TMOD
   D:008DH         PUBLIC        TH1
   D:008BH         PUBLIC        TL1
   B:0088H.6       PUBLIC        TR1
   -------         PROC          MAIN
-  C:0C2FH         LINE#         3
-  C:0C2FH         LINE#         4
-  C:0C32H         LINE#         7
-  C:0C35H         LINE#         9
-  C:0C38H         LINE#         11
-  C:0C3AH         LINE#         14
-  C:0C3DH         LINE#         17
-  C:0C46H         LINE#         18
+  -------         DO            
+  D:0082H         SYMBOL        mem
+  D:0007H         SYMBOL        vtest
+  B:0020H.0       SYMBOL        test
+  -------         ENDDO         
+  C:0C3DH         LINE#         3
+  C:0C3DH         LINE#         6
+  C:0C3FH         LINE#         7
+  C:0C42H         LINE#         10
+  C:0C45H         LINE#         12
+  C:0C48H         LINE#         14
+  C:0C4AH         LINE#         17
+  C:0C4DH         LINE#         20
+  C:0C56H         LINE#         22
+  C:0C66H         LINE#         23
+  C:0C69H         LINE#         24
+  C:0C6AH         LINE#         25
+  C:0C6EH         LINE#         26
+  C:0C70H         LINE#         27
+  C:0C72H         LINE#         28
+  C:0C72H         LINE#         29
+  C:0C75H         LINE#         30
+  C:0C7AH         LINE#         31
+  C:0C7EH         LINE#         32
+  C:0C80H         LINE#         33
+  C:0C80H         LINE#         34
+  C:0C87H         LINE#         35
+  C:0C87H         LINE#         36
   -------         ENDPROC       MAIN
   -------         ENDMOD        GLAVNI
 
@@ -99,6 +119,9 @@ SYMBOL TABLE OF MODULE:  proj2 (GLAVNI)
   D:0008H         PUBLIC        ?_SPRINTF?BYTE
   C:0862H         PUBLIC        _PRINTF
   C:0862H         PUBLIC        _PRINTF517
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/16/2017  10:48:56  PAGE 3
+
+
   C:085CH         PUBLIC        _SPRINTF
   C:085CH         PUBLIC        _SPRINTF517
   -------         ENDMOD        PRINTF
@@ -119,20 +142,17 @@ SYMBOL TABLE OF MODULE:  proj2 (GLAVNI)
   C:0BB4H         PUBLIC        ?C?PLDIIDATA
   -------         ENDMOD        ?C?PLDIIDATA
 
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/16/2017  09:55:09  PAGE 3
-
-
   -------         MODULE        ?C?CCASE
   C:0BC4H         PUBLIC        ?C?CCASE
   -------         ENDMOD        ?C?CCASE
 
   -------         MODULE        PUTCHAR
-  C:0BEAH         PUBLIC        _PUTCHAR
+  C:0C89H         PUBLIC        _PUTCHAR
   -------         ENDMOD        PUTCHAR
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0037H BYTE ( 2%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 009FH BYTE ( 7%) *
 ******************************************************************************
 
-Program Size: data=30.1 xdata=0 code=1111
+Program Size: data=30.2 xdata=0 code=1215
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
